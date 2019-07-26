@@ -31,11 +31,17 @@ namespace MatrixLibrary
             Matrix matrixC = matrixA - matrixB;
 
             matrixC.Show();
-
+            /*
             Console.WriteLine();
             matrixA.Show();
             Console.WriteLine();
-            matrixA = Matrix.Transpose(matrixA);
+
+            if (!matrixA.Equals(matrixB))
+            {
+                Console.WriteLine("Матрицы не равны!");
+            }
+            */
+            matrixA = matrixA ^ 2;
             matrixA.Show();
         }
     }

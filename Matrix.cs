@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MatrixLibrary
 {
-    public class Matrix
+    public class Matrix 
     {
         private double[,] M;
         private int n, m;
@@ -88,6 +88,11 @@ namespace MatrixLibrary
             return (n == B.n) && (m == B.m);
         }
 
+        public bool isQuadratic()
+        {
+            return (n == m);
+        }
+
         public static Matrix operator +(Matrix A, Matrix B)
         {
             if (A.IsEqualSize(B))
@@ -125,7 +130,7 @@ namespace MatrixLibrary
         public static Matrix operator -(Matrix A, Matrix B)
         {
             if (A.IsEqualSize(B))
-            {
+            {            
                 Matrix C = new Matrix(A.n, A.m);
 
                 for (int i = 0; i < A.n; i++)
@@ -185,7 +190,7 @@ namespace MatrixLibrary
             int n = A.n;
             int m = A.m;
             Matrix B = new Matrix(m, n);
-
+            
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < m; j++)
@@ -195,6 +200,110 @@ namespace MatrixLibrary
             }
 
             return B;
+        }
+
+        public static Matrix operator ^(Matrix A, int degree)
+        {
+            Matrix C = new Matrix(A.n, A.m);
+            if (degree == 0)
+            {
+
+            }
+            C = A;
+            for (int i = 1; i < degree; i++)
+            {
+                C *= A;
+            }
+            return C;
+        }
+
+        public bool Equals(Matrix other)
+        {
+            if (IsEqualSize(other))
+            {
+                bool isEqual = true; 
+                for (int i = 0; i < lengthN; i++)
+                {
+                    for (int j = 0; j < lengthM; i++)
+                    {
+                        if (this[i, j] != other[i, j])
+                        {
+                            isEqual = false;
+                            break;
+                        }
+                    }
+                }
+                if (isEqual)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //?
+        private void SetZero()
+        {
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    this[i, j] = 0;
+                }
+            }
+        }
+
+        public static Matrix IdentityMatrix(int n)
+        {
+            Matrix E = new Matrix(n);
+            
+            E.SetZero();
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    E[i, j] = 1;
+                }
+            }
+
+            return E;
+        }     
+        
+        public bool IsIdentity()
+        {
+            Matrix test = new Matrix(n);
+
+            test = IdentityMatrix(n);
+
+            if (Equals(test))
+                return true;
+            else
+                return false;
+        }
+
+        public bool IsDiagonal()
+        {
+            if (isQuadratic())
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        if ((this[i, j] != 0) && (i != j))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            else
+                return false;
         }
     }
 }
