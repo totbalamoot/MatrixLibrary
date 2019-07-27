@@ -291,7 +291,7 @@ namespace MatrixLibrary
             {
                 for (int i = 0; i < n; i++)
                 {
-                    for (int j = 0; j < n; j++)
+                    for (int j = 0; j < m; j++)
                     {
                         if ((this[i, j] != 0) && (i != j))
                         {
@@ -304,6 +304,39 @@ namespace MatrixLibrary
             }
             else
                 return false;
+        }
+        public bool IsStepped()
+        {
+            if (this[0, 0] != 0 && n > 1 && m > 1)
+            {
+                double upZeroCount = 0;
+                double downZeroCount = 0;
+
+                for (int i = 1, j = 0; i < n; i++)
+                {   
+                    while(this[i, j] == 0 || j > m)
+                    {
+                        downZeroCount++;
+                        j++;
+                    }
+                    if (upZeroCount >= downZeroCount)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        upZeroCount = downZeroCount;
+                        downZeroCount = 0;
+                        j = 0;
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
